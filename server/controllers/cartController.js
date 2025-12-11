@@ -2,7 +2,8 @@ const { TryCatch } = require("../middlewares/TryCatch.js");
 const cartModel = require("../models/cartModel.js");
 
 const addProduct = TryCatch( async(req, res) => {
-    const {quantity, productId, userId} = req.body;
+    const {quantity, productId} = req.body;
+    const userId = req.user.userId;
 
     const cart = await cartModel.create({quantity,product:productId,user:userId});
 
@@ -18,7 +19,7 @@ const removeProduct = TryCatch( async(req, res) => {
 });
 
 const findProducts = TryCatch( async(req, res) => {
-    const userId = req.header("userId");
+    const userId = req.user.userId;
 
     const cart = await cartModel.find({user:userId});
 

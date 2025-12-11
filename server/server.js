@@ -23,7 +23,7 @@ app.use(cors());
 //API Routes
 app.use("/api/user",userRoute);
 app.use("/api/product",productRoute);
-app.use("/api/cart",cartRoute);cd srev
+app.use("/api/cart",cartRoute);
 
 //variables
 const PORT = process.env.PORT;

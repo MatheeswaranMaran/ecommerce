@@ -3,6 +3,7 @@ const { TryCatch } = require("../middlewares/TryCatch.js");
 const { hashPassword, comparePassword } = require("../utils/hashing.js");
 const { sendOtp } = require("../utils/sendOtp.js");
 const otpModel = require("../models/otpModel.js");
+const jwt = require("jsonwebtoken");
 
 // ------------------------------------------------------------
 // Create User
@@ -43,7 +44,9 @@ const userLogin = TryCatch(async (req, res) => {
         return res.status(401).json({ message: "Password doesn't match" });
     }
 
-    return res.status(200).json({ user, message: "Login successful" });
+    const token = jwt.sign({userId:user._id,role:user.role},process.env.JWT_SECRET,{expiresIn:"7d"});
+
+    return res.status(200).json({ token, message: "Login successful" });
 });
 
 // ------------------------------------------------------------
@@ -120,7 +123,7 @@ const updatePassword = TryCatch(async (req, res) => {
 // Delete User
 // ------------------------------------------------------------
 const deleteUser = TryCatch(async (req, res) => {
-    const { userId } = req.body;
+    const userId = req.user.userId;
 
     await userModel.deleteOne({ _id: userId });
 
