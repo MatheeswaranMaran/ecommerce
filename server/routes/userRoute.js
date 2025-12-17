@@ -11,5 +11,4 @@ router.post("/verifyotp",verifyOTP);
 router.put("/updatepassword",updatePassword);
 router.delete("/delete",isUser,deleteUser);
 
-
 module.exports = router;
